@@ -1,6 +1,6 @@
 # Auto escaping plugin for CakePHP #
 
-## Insttallation ##
+## Installation ##
 
 First, put `escape’ directory on app/plugins in your CakePHP application.
 
