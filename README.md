@@ -15,6 +15,6 @@ Second, add the following code in app_controller.php
             }
         }
 
-## row() ##
+## raw() ##
 
-`rouw()' decode escaped valiables.
+`raw()' decode escaped valiables.

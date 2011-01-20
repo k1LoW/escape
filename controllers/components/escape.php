@@ -1,14 +1,14 @@
 <?php
   /**
-   * row
+   * raw
    *
    * @param string $text Text to decode
    * @param string $charset Character set to use when decoding.  Defaults to config value in 'App.encoding' or 'UTF-8'
    * @return string decoded text
    */
-function row($text, $charset = null) {
+function raw($text, $charset = null) {
     if (is_array($text)) {
-        return array_map('row', $text);
+        return array_map('raw', $text);
     }
 
     static $defaultCharset = false;
