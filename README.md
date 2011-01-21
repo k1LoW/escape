@@ -14,3 +14,7 @@ Second, add the following code in app_controller.php
 ## raw() ##
 
 `raw()' decode escaped valiables.
+
+## TODO ##
+
+* Auto Decoding in FormHelper::input()
