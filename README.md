@@ -13,7 +13,7 @@ Second, add the following code in app_controller.php
 
 ## Escape type ##
 
-### htmlspecialchars() and html_entity_decode() ###
+### use htmlspecialchars() and html_entity_decode() ###
 
 Escape / decode valiables.
 
@@ -31,7 +31,7 @@ view.ctp example
     <?php echo $escaped; // echo escaped value; ?>
     <?php echo d($escaped); // echo decode value; ?>  
 
-### create object and set escaped / raw value ###
+### create object and set escaped/raw value ###
 
 app_controller.php example
 
