@@ -1,12 +1,12 @@
 <?php
   /**
-   * raw
+   * d
    *
    * @param string $text Text to decode
    * @param string $charset Character set to use when decoding.  Defaults to config value in 'App.encoding' or 'UTF-8'
    * @return string decoded text
    */
-function raw($text, $charset = null) {
+function d($text, $charset = null) {
     if (is_array($text)) {
         return array_map('raw', $text);
     }
@@ -26,6 +26,23 @@ function raw($text, $charset = null) {
   }
 
 /**
+ * Escaper
+ *
+ * @params
+ */
+class Escaper {
+    public $escaped = null;
+    public $raw = null;
+    public function __construct($value, $charset = 'UTF-8') {
+        $this->escaped = htmlspecialchars($value, ENT_QUOTES, $charset);
+        $this->raw = $value;
+    }
+    public function __toString() {
+        return $this->escaped;
+    }
+}
+
+/**
  * EscapeComponent code license:
  *
  * @copyright   Copyright (C) 2011 by 101000code/101000LAB
@@ -34,12 +51,16 @@ function raw($text, $charset = null) {
  */
 class EscapeComponent extends Object {
 
+    var $settings = array('objectEscape' => false,
+                          'dataEscape' => true);
+
     /**
      * initialize
      *
      * @return
      */
-    function initialize(&$controller, $settings) {
+    function initialize(&$controller, $settings = array()) {
+        $this->settings = am($this->settings, $settings);
         $this->controller = $controller;
     }
 
@@ -59,8 +80,17 @@ class EscapeComponent extends Object {
      * @return
      */
     function automate(){
-        $this->controller->viewVars = $this->_h($this->controller->viewVars);
-        $this->controller->data = $this->_h($this->controller->data);
+        if ($this->settings['objectEscape']) {
+            $this->controller->viewVars = $this->_createObject($this->controller->viewVars);
+            if ($this->settings['dataEscape']) {
+                $this->controller->data = $this->_createObject($this->controller->data);
+            }
+        } else {
+            $this->controller->viewVars = $this->_h($this->controller->viewVars);
+            if ($this->settings['dataEscape']) {
+                $this->controller->data = $this->_h($this->controller->data);
+            }
+        }
     }
 
     /**
@@ -88,6 +118,34 @@ class EscapeComponent extends Object {
             return htmlspecialchars($text, ENT_QUOTES, $charset);
         } else {
             return htmlspecialchars($text, ENT_QUOTES, $defaultCharset);
+        }
+    }
+
+    /**
+     * _createObject
+     *
+     * @param string $text Text to escape
+     * @param string $charset Character set to use when escape.  Defaults to config value in 'App.encoding' or 'UTF-8'
+     * @return string decoded text
+     */
+    function _createObject($text, $charset = null) {
+        if (is_array($text)) {
+            return array_map(array($this, '_createObject'), $text);
+        }
+        static $defaultCharset = false;
+        if ($defaultCharset === false) {
+            $defaultCharset = Configure::read('App.encoding');
+            if ($defaultCharset === null) {
+                $defaultCharset = 'UTF-8';
+            }
+        }
+        if (is_object($text)) {
+            return $text;
+        }
+        if ($charset) {
+            return new Escaper($text, $charset);
+        } else {
+            return new Escaper($text, $defaultCharset);
         }
     }
 

@@ -11,9 +11,39 @@ Second, add the following code in app_controller.php
             var $components = array('Escape.Escape');
         }
 
-## raw() ##
+## Escape type ##
 
-`raw()' decode escaped valiables.
+### htmlspecialchars() and html_entity_decode() ###
+
+Escape / decode valiables.
+
+* `d()' decode escaped valiables.
+
+app_controller.php example
+
+    <?php
+        class AppController extends Controller {
+            var $components = array('Escape.Escape');
+        }
+
+view.ctp example
+
+    <?php echo $escaped; // echo escaped value; ?>
+    <?php echo d($escaped); // echo decode value; ?>  
+
+### create object and set escaped / raw value ###
+
+app_controller.php example
+
+    <?php
+        class AppController extends Controller {
+            var $components = array('Escape.Escape' => array('objectEscape' => true));
+        }
+
+view.ctp example
+
+    <?php echo $escaped; // echo escaped value; ?>
+    <?php echo $escaped->raw; // echo raw value; ?>  
 
 ## TODO ##
 
