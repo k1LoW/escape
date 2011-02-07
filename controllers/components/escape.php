@@ -52,7 +52,7 @@ class Escaper {
 class EscapeComponent extends Object {
 
     var $settings = array('objectEscape' => false,
-                          'dataEscape' => true);
+                          'formDataEscape' => true);
 
     /**
      * initialize
@@ -82,12 +82,12 @@ class EscapeComponent extends Object {
     function automate(){
         if ($this->settings['objectEscape']) {
             $this->controller->viewVars = $this->_createObject($this->controller->viewVars);
-            if ($this->settings['dataEscape']) {
+            if ($this->settings['formDataEscape']) {
                 $this->controller->data = $this->_createObject($this->controller->data);
             }
         } else {
             $this->controller->viewVars = $this->_h($this->controller->viewVars);
-            if ($this->settings['dataEscape']) {
+            if ($this->settings['formDataEscape']) {
                 $this->controller->data = $this->_h($this->controller->data);
             }
         }

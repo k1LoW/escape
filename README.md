@@ -45,6 +45,15 @@ view.ctp example
     <?php echo $escaped; // echo escaped value; ?>
     <?php echo $escaped->raw; // echo raw value; ?>  
 
+## $this->data escape ##
+
+If you do not escape $this->data, add the following code in app_controller.php.
+
+    <?php
+        class AppController extends Controller {
+            var $components = array('Escape.Escape' => array('formDataEscape' => false));
+        }
+
 ## TODO ##
 
 * Auto Decoding in FormHelper::input()
