@@ -83,12 +83,16 @@ class EscapeComponent extends Object {
         if ($this->settings['objectEscape']) {
             $this->controller->viewVars = $this->_createObject($this->controller->viewVars);
             if ($this->settings['formDataEscape']) {
-                $this->controller->data = $this->_createObject($this->controller->data);
+                if (!empty($this->controller->data)) {
+                    $this->controller->data = $this->_createObject($this->controller->data);
+                }
             }
         } else {
             $this->controller->viewVars = $this->_h($this->controller->viewVars);
             if ($this->settings['formDataEscape']) {
-                $this->controller->data = $this->_h($this->controller->data);
+                if (!empty($this->controller->data)) {
+                    $this->controller->data = $this->_h($this->controller->data);
+                }
             }
         }
     }
