@@ -8,7 +8,7 @@
    */
 function d($text, $charset = null) {
     if (is_array($text)) {
-        return array_map('raw', $text);
+        return array_map('d', $text);
     }
 
     static $defaultCharset = false;
