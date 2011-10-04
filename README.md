@@ -1,5 +1,10 @@
 # Auto escaping plugin for CakePHP #
 
+## Requirements ##
+
+* PHP >= 5.2.6
+* CakePHP >= 2.0
+
 ## Installation ##
 
 First, put `escape’ directory on app/plugins in your CakePHP application.
