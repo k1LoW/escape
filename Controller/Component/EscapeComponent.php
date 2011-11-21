@@ -88,7 +88,7 @@ class EscapeComponent extends Component {
      *
      * @return
      */
-    function enable($controller, $enabled){
+    public function enable($enabled){
         if (!is_bool($enabled)) {
             return false;
         }
