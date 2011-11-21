@@ -138,7 +138,7 @@ class EscapeComponent extends Component {
                 $defaultCharset = 'UTF-8';
             }
         }
-        if (!is_text($text)) {
+        if (!is_string($text)) {
             return $text;
         }
         if ($charset) {
