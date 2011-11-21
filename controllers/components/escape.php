@@ -52,7 +52,8 @@ class Escaper {
 class EscapeComponent extends Object {
 
     var $settings = array('objectEscape' => false,
-                          'formDataEscape' => true);
+                          'formDataEscape' => true
+                          'enabled' => true);
 
     /**
      * initialize
@@ -70,7 +71,23 @@ class EscapeComponent extends Object {
      * @return
      */
     function beforeRender(&$controller) {
-        $this->automate();
+        if ($this->settings['enabled']) {
+            $this->automate();
+        }
+    }
+
+    /**
+     * enabled
+     *
+     * @param &$controller
+     * @return
+     */
+    function enabled(&$controller, $enabled){
+        if (!is_bool($enabled)) {
+            return false;
+        }
+        $this->settings['enabled'] = $enabled;
+        return true;
     }
 
     /**
@@ -115,7 +132,7 @@ class EscapeComponent extends Object {
                 $defaultCharset = 'UTF-8';
             }
         }
-        if (is_object($text)) {
+        if (!is_string($text)) {
             return $text;
         }
         if ($charset) {
