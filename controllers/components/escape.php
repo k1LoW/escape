@@ -77,12 +77,12 @@ class EscapeComponent extends Object {
     }
 
     /**
-     * enabled
+     * enable
      *
      * @param &$controller
      * @return
      */
-    function enabled(&$controller, $enabled){
+    function enable(&$controller, $enabled){
         if (!is_bool($enabled)) {
             return false;
         }
