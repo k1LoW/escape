@@ -52,7 +52,7 @@ class Escaper {
 class EscapeComponent extends Object {
 
     var $settings = array('objectEscape' => false,
-                          'formDataEscape' => true
+                          'formDataEscape' => true,
                           'enabled' => true);
 
     /**
