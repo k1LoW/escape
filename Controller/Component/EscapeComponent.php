@@ -50,13 +50,13 @@ class Escaper {
 /**
  * EscapeComponent code license:
  *
- * @copyright   Copyright (C) 2011 by 101000code/101000LAB
+ * @copyright   Copyright (C) 2012 by 101000code/101000LAB
  * @since       CakePHP(tm) v 1.3
  * @license     http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 class EscapeComponent extends Component {
 
-    private $_settings = array(
+    private $default = array(
         'objectEscape' => false,
         'formDataEscape' => true,
         'enabled' => true
@@ -67,20 +67,22 @@ class EscapeComponent extends Component {
      *
      * @return
      */
-    public function initialize($controller) {
-        $this->settings = Set::merge($this->_settings, $this->settings);
+    public function initialize(Controller $controller) {
+        $this->settings = Set::merge($this->default, $this->settings);
         $this->controller = $this->_Collection->getController();
+        Configure::write('Escape.objectEscape', $this->settings['objectEscape']);
+        Configure::write('Escape.formDataEscape', $this->settings['formDataEscape']);
+        Configure::write('Escape.enabled', $this->settings['enabled']);
     }
 
     /**
-     * beforeRender
+     * startup
      *
+     * @param &$controller
      * @return
      */
-    public function beforeRender($controller) {
-        if ($this->settings['enabled']) {
-            $this->automate();
-        }
+    public function startup(Controller $controller) {
+        $controller->helpers[] = 'Escape.Escape';
     }
 
     /**
@@ -93,87 +95,7 @@ class EscapeComponent extends Component {
             return false;
         }
         $this->settings['enabled'] = $enabled;
+        Configure::write('Escape.enabled', $enabled);
         return true;
     }
-
-    /**
-     * automate
-     * wrap value through h()
-     *
-     * @return
-     */
-    public function automate() {
-        if ($this->settings['objectEscape']) {
-            $this->controller->viewVars = $this->_createObject($this->controller->viewVars);
-            if ($this->settings['formDataEscape']) {
-                if (!empty($this->controller->request->data)) {
-                    $this->controller->request->data = $this->_createObject($this->controller->request->data);
-                }
-            }
-        } else {
-            $this->controller->viewVars = $this->_h($this->controller->viewVars);
-            if ($this->settings['formDataEscape']) {
-                if (!empty($this->controller->request->data)) {
-                    $this->controller->request->data = $this->_h($this->controller->request->data);
-                }
-            }
-        }
-    }
-
-    /**
-     * _h
-     *
-     * @param string $text Text to escape
-     * @param string $charset Character set to use when escape.  Defaults to config value in 'App.encoding' or 'UTF-8'
-     * @return string decoded text
-     */
-    private function _h($text, $charset = null) {
-        if (is_array($text)) {
-            return array_map(array($this, '_h'), $text);
-        }
-        static $defaultCharset = false;
-        if ($defaultCharset === false) {
-            $defaultCharset = Configure::read('App.encoding');
-            if ($defaultCharset === null) {
-                $defaultCharset = 'UTF-8';
-            }
-        }
-        if (!is_string($text)) {
-            return $text;
-        }
-        if ($charset) {
-            return htmlspecialchars($text, ENT_QUOTES, $charset);
-        } else {
-            return htmlspecialchars($text, ENT_QUOTES, $defaultCharset);
-        }
-    }
-
-    /**
-     * _createObject
-     *
-     * @param string $text Text to escape
-     * @param string $charset Character set to use when escape.  Defaults to config value in 'App.encoding' or 'UTF-8'
-     * @return string decoded text
-     */
-    private function _createObject($text, $charset = null) {
-        if (is_array($text)) {
-            return array_map(array($this, '_createObject'), $text);
-        }
-        static $defaultCharset = false;
-        if ($defaultCharset === false) {
-            $defaultCharset = Configure::read('App.encoding');
-            if ($defaultCharset === null) {
-                $defaultCharset = 'UTF-8';
-            }
-        }
-        if (is_object($text)) {
-            return $text;
-        }
-        if ($charset) {
-            return new Escaper($text, $charset);
-        } else {
-            return new Escaper($text, $defaultCharset);
-        }
-    }
-
 }
