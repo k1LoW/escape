@@ -1,0 +1,15 @@
+{
+    "name": "k1low/escape",
+    "description": "Auto escaping plugin for CakePHP",
+    "type": "cakephp-plugin",
+    "keywords": ["cakephp", "escape"],
+    "homepage": "https://github.com/k1LoW/escape",
+    "license": "MIT",
+    "authors": [
+        {
+                "name": "Ken'ichiro Oyama",
+                "homepage": "https://github.com/k1LoW",
+                "role": "Author"
+            }
+    ]
+}
