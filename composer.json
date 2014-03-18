@@ -11,5 +11,8 @@
                 "homepage": "https://github.com/k1LoW",
                 "role": "Author"
             }
-    ]
+    ],
+    "require": {
+        "composer/installers": "*"
+    }
 }
